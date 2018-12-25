@@ -18,21 +18,21 @@ class Waker():
     def sendPacket(self, packet, destIP, destPort = 7):
         # Create the socket connection and send the packet
         s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.sendto(packet,(destIP,destPort))
+        s.sendto(packet.encode(),(destIP,destPort))
         s.close()
         
     def wake(self, macAddress, destIP, destPort=7):
         self.makeMagicPacket(macAddress)
         self.sendPacket(self.packet, destIP, destPort)
-        print 'Packet successfully sent to', macAddress
+        print ('Packet successfully sent to', macAddress)
         
 if __name__ == '__main__':
     #This is all the information that needs to be changed to make this work for you
-    mac = '1C-1B-0D-D7-95-AF'
+    mac = '1C:1B:0D:D7:95:AF'
     ip = '192.168.1.32' #The IP address where the packet should be sent
     port = 7 #The port the packet will be sent on
     
     wol = Waker()
     wol.makeMagicPacket(mac)
     wol.sendPacket(wol.packet, ip, port)
-    print 'Packet successfully sent to', mac
+    print ('Packet successfully sent to', mac)
